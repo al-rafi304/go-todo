@@ -6,8 +6,7 @@ import (
 )
 
 func getTodos(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(todos)
+	jsonResponse(w, http.StatusOK, todos)
 }
 
 func createTodo(w http.ResponseWriter, r *http.Request) {
@@ -21,6 +20,5 @@ func createTodo(w http.ResponseWriter, r *http.Request) {
 	nextId++
 	todos = append(todos, todo)
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(todos)
+	jsonResponse(w, http.StatusOK, todo)
 }

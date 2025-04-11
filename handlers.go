@@ -2,7 +2,9 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
+	"strconv"
 )
 
 func getTodos(w http.ResponseWriter, r *http.Request) {
@@ -21,4 +23,27 @@ func createTodo(w http.ResponseWriter, r *http.Request) {
 	todos = append(todos, todo)
 
 	jsonResponse(w, http.StatusOK, todo)
+}
+
+func completeTodo(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(r.PathValue("id"))
+	if err != nil {
+		http.Error(w, "Invalid id parameter", http.StatusBadRequest)
+	}
+
+	for i, todo := range todos {
+		if todo.ID == id {
+			todos[i].Completed = true
+
+			jsonResponse(w, http.StatusOK, map[string]string{
+				"message": fmt.Sprintf("Completed - %s", todo.Title),
+			})
+			return
+		}
+	}
+
+	jsonResponse(w, http.StatusNotFound, map[string]string{
+		"error": "Todo not found",
+	})
+
 }

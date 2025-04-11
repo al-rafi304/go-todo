@@ -11,10 +11,6 @@ func getTodos(w http.ResponseWriter, r *http.Request) {
 }
 
 func createTodo(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-	}
-
 	var todo Todo
 	if err := json.NewDecoder(r.Body).Decode(&todo); err != nil {
 		http.Error(w, "Invalid request body", http.StatusBadRequest)

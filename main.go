@@ -11,5 +11,9 @@ func main() {
 	http.HandleFunc("PATCH /{id}", completeTodo)
 
 	log.Println("Server running on http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
